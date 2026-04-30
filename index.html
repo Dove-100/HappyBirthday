@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=2.0, minimum-scale=0.5">
+    <title>🎂 白露霞 · 像素生日派对 | 生日快乐</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #2d1b3a;
+            background-image: radial-gradient(circle at 30% 40%, #5b3a6b 2%, transparent 3%),
+                radial-gradient(circle at 70% 20%, #7b4b8a 3%, transparent 4%),
+                radial-gradient(circle at 10% 80%, #e8a0bf 1%, transparent 2%),
+                radial-gradient(circle at 90% 70%, #f7c5cc 2%, transparent 3%);
+            background-size: 80px 80px, 100px 100px, 60px 60px, 90px 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            padding: 20px;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 像素风主卡片 */
+        .game-container {
+            max-width: 700px;
+            width: 100%;
+            background: #fde4cf;
+            border: 8px solid #d49b6a;
+            box-shadow: 12px 12px 0 #7b4b3a, 16px 16px 0 rgba(0, 0, 0, 0.3);
+            padding: 25px 20px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        /* 像素文字装饰 */
+        h1,
+        h2,
+        p {
+            text-shadow: 3px 3px 0 #d49b6a;
+            letter-spacing: 1px;
+            color: #4a2c2c;
+        }
+
+        h1 {
+            font-size: clamp(1.3rem, 6vw, 2rem);
+            text-align: center;
+            background: #ffdbb5;
+            display: inline-block;
+            padding: 10px 15px;
+            border: 4px solid #b87333;
+            margin-bottom: 5px;
+            box-shadow: 4px 4px 0 #5e3a1c;
+            line-height: 1.4;
+        }
+
+        .name-highlight {
+            color: #d4456a;
+            text-shadow: 3px 3px 0 #ffb6c1;
+        }
+
+        .pixel-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-size: 2.2rem;
+            filter: drop-shadow(4px 4px 0 #b85c38);
+            margin-bottom: 5px;
+        }
+
+        /* 游戏区域布局 */
+        .play-area {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            width: 100%;
+        }
+
+        /* 蛋糕区域 */
+        .cake-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cake {
+            position: relative;
+            width: 140px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cake:hover {
+            transform: scale(1.02);
+        }
+
+        .cake-layer {
+            width: 120px;
+            height: 45px;
+            background: #f7b2b2;
+            border: 5px solid #c45c5c;
+            border-radius: 8px 8px 2px 2px;
+            box-shadow: inset 0 -8px 0 #e09a9a, 4px 4px 0 #7b4b3a;
+            position: relative;
+            margin-top: -5px;
+            transition: all 0.3s;
+        }
+
+        .cake-layer.top {
+            width: 100px;
+            height: 35px;
+            background: #ffe0b0;
+            border-color: #d68b4a;
+            border-radius: 8px 8px 4px 4px;
+            margin-top: -4px;
+            box-shadow: inset 0 -6px 0 #f5c99a, 4px 4px 0 #7b4b3a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .candle {
+            width: 14px;
+            height: 32px;
+            background: #ff9f9f;
+            border: 3px solid #b34040;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            margin-top: -18px;
+            box-shadow: 2px 2px 0 #5e3a1c;
+            transition: all 0.2s;
+        }
+
+        .flame {
+            width: 14px;
+            height: 18px;
+            background: #ffcc4d;
+            border-radius: 50% 50% 30% 30%;
+            position: absolute;
+            top: -18px;
+            left: -1px;
+            box-shadow: 0 0 8px #ff9900, 2px 2px 0 #cc7a00;
+            animation: flicker 0.15s infinite alternate;
+            border: 2px solid #e68a00;
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: scaleY(1) scaleX(1);
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: scaleY(1.15) scaleX(0.9);
+                opacity: 1;
+                background: #ffdb70;
+            }
+        }
+
+        .candle.out .flame {
+            display: none;
+        }
+
+        .cake.base {
+            width: 130px;
+            height: 30px;
+            background: #d6a074;
+            border: 5px solid #8b5a3c;
+            border-radius: 4px;
+            margin-top: -2px;
+            box-shadow: inset 0 -5px 0 #b07c5a, 4px 4px 0 #5e3a1c;
+        }
+
+        /* 蛋糕被吃掉的状态 */
+        .cake.eating .cake-layer {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        .cake.eaten .cake-layer {
+            opacity: 0.3;
+            transform: scale(0.8);
+        }
+
+        .cake.eaten .cake.base {
+            opacity: 0.5;
+        }
+
+        .cake-message {
+            background: #ffecaa;
+            border: 3px solid #b87333;
+            padding: 6px 12px;
+            font-size: 0.65rem;
+            color: #4a2c2c;
+            box-shadow: 3px 3px 0 #7b4b3a;
+            text-align: center;
+        }
+
+        /* 吃蛋糕进度条 */
+        .eat-progress {
+            width: 130px;
+            height: 12px;
+            background: #e0c8a8;
+            border: 3px solid #8b5a3c;
+            margin-top: 5px;
+            box-shadow: 2px 2px 0 #5e3a1c;
+            display: none;
+        }
+
+        .eat-progress.show {
+            display: block;
+        }
+
+        .eat-progress-fill {
+            height: 100%;
+            background: #ff9f9f;
+            transition: width 0.3s;
+            width: 100%;
+        }
+
+        /* 吃掉的部分特效 */
+        .bite-mark {
+            position: absolute;
+            font-size: 1.5rem;
+            pointer-events: none;
+            animation: biteFloat 1s ease-out forwards;
+            z-index: 10;
+        }
+
+        @keyframes biteFloat {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-40px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* 信封卡片 */
+        .envelope-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .envelope {
+            width: 120px;
+            height: 85px;
+            background: #fae3c6;
+            border: 5px solid #b87333;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 5px 5px 0 #5e3a1c;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .envelope:hover {
+            background: #ffdbb5;
+        }
+
+        .envelope.open {
+            background: #ffead4;
+            border-style: dashed;
+        }
+
+        .letter {
+            background: #fff9e6;
+            border: 4px solid #a5682a;
+            padding: 18px 12px;
+            width: 200px;
+            text-align: center;
+            font-size: 0.7rem;
+            line-height: 1.8;
+            color: #3e2a1a;
+            box-shadow: 5px 5px 0 #6b4a2c;
+            background: #fff3d6;
+            display: none;
+            margin-top: 5px;
+        }
+
+        .letter.show {
+            display: block;
+            animation: pixelPop 0.3s steps(3);
+        }
+
+        @keyframes pixelPop {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pixel-btn {
+            background: #faca7b;
+            border: 4px solid #b85c38;
+            color: #3d2b1a;
+            font-family: inherit;
+            font-size: 0.7rem;
+            padding: 10px 14px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #6b3f2a;
+            transition: 0.1s linear;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #ffdb9c;
+        }
+
+        .pixel-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0 #5e3a1c;
+        }
+
+        .pixel-btn.eat-btn {
+            background: #ffc3c3;
+            border-color: #c45c5c;
+        }
+
+        .pixel-btn.music-btn {
+            background: #e6c3ff;
+            border-color: #7a4b8a;
+        }
+
+        .footer-note {
+            font-size: 0.6rem;
+            margin-top: 5px;
+            color: #6b4f3c;
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            .play-area {
+                flex-direction: column;
+            }
+
+            .pixel-btn {
+                font-size: 0.65rem;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="pixel-icons">
+            <span>🎁</span><span>🎈</span><span>⭐</span><span>🍰</span>
+        </div>
+        <h1>✨ <span class="name-highlight">肥肥猪</span> ✨<br>生日快乐！</h1>
+        <p style="font-size:0.75rem;">🎮 小肥猪专属·生日小程序</p>
+
+        <div class="play-area">
+            <!-- 蛋糕+蜡烛区域 -->
+            <div class="cake-section">
+                <div class="cake" id="cakeContainer">
+                    <div class="cake-layer top" id="cakeTop">
+                        <!-- 蜡烛动态插入 -->
+                    </div>
+                    <div class="cake-layer" id="cakeMiddle"></div>
+                    <div class="cake base" id="cakeBase"></div>
+                </div>
+                <div class="eat-progress" id="eatProgress">
+                    <div class="eat-progress-fill" id="eatProgressFill"></div>
+                </div>
+                <div class="cake-message" id="cakeStatus">🕯️ 点蜡烛吧</div>
+                <div class="action-buttons">
+                    <button class="pixel-btn" id="lightCandlesBtn">🔥 点蜡烛</button>
+                    <button class="pixel-btn" id="blowCandlesBtn">💨 吹蜡烛</button>
+                    <button class="pixel-btn" id="cutCakeBtn">🍰 切蛋糕</button>
+                    <button class="pixel-btn eat-btn" id="eatCakeBtn">😋 吃蛋糕</button>
+                </div>
+            </div>
+
+            <!-- 信封区域 -->
+            <div class="envelope-section">
+                <div class="envelope" id="envelope">
+                    ✉️
+                </div>
+                <div class="letter" id="birthdayLetter">
+                    <p>💌 亲爱的 <strong>小肥猪</strong>：</p>
+                    <p>✨ 生日快乐！✨</p>
+                    <p>愿你的每一天都能开心快乐，⭐</p>
+                    <p>享受每一天！</p>
+                    <p>🎂 幸福满满 🎈</p>
+                    <p style="font-size:0.6rem; margin-top:5px;">—— 来自大肥猪的祝福</p>
+                </div>
+                <button class="pixel-btn" id="openEnvelopeBtn">📬 拆开信封</button>
+            </div>
+        </div>
+
+        <!-- 音乐控制 -->
+        <button class="pixel-btn music-btn" id="musicToggle">🎵 生日歌: 开</button>
+        <div class="footer-note">🎮 点击蜡烛/信封互动 · 生日快乐！</div>
+    </div>
+
+    <script>
+        (function () {
+            // ---------- 像素生日核心逻辑 ----------
+            // 状态变量
+            let candlesLit = false;
+            let cakeCut = false;
+            let envelopeOpen = false;
+            let cakeEatenBites = 0; // 已经被吃的口数
+            const maxBites = 5; // 总共可以吃5口
+
+            // DOM 元素
+            const cakeContainer = document.getElementById('cakeContainer');
+            const cakeTop = document.getElementById('cakeTop');
+            const cakeMiddle = document.getElementById('cakeMiddle');
+            const cakeBase = document.getElementById('cakeBase');
+            const cakeStatus = document.getElementById('cakeStatus');
+            const eatProgress = document.getElementById('eatProgress');
+            const eatProgressFill = document.getElementById('eatProgressFill');
+            const lightBtn = document.getElementById('lightCandlesBtn');
+            const blowBtn = document.getElementById('blowCandlesBtn');
+            const cutBtn = document.getElementById('cutCakeBtn');
+            const eatBtn = document.getElementById('eatCakeBtn');
+            const envelopeDiv = document.getElementById('envelope');
+            const letterDiv = document.getElementById('birthdayLetter');
+            const openEnvelopeBtn = document.getElementById('openEnvelopeBtn');
+            const musicToggle = document.getElementById('musicToggle');
+
+            // 音频上下文相关
+            let audioCtx = null;
+            let musicPlaying = false;
+            let musicInterval = null;
+            let isMusicOn = true;
+
+            // 扩展的生日歌旋律 (约2分钟)
+            const birthdayNotes = [
+                // 第一段：祝你生日快乐 (主旋律)
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 587.33, dur: 0.4 }, // D5
+                { freq: 523.25, dur: 0.4 }, // C5
+                { freq: 659.25, dur: 0.4 }, // E5
+                { freq: 587.33, dur: 0.8 }, // D5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 587.33, dur: 0.4 }, // D5
+                { freq: 523.25, dur: 0.4 }, // C5
+                { freq: 783.99, dur: 0.4 }, // G5
+                { freq: 659.25, dur: 0.8 }, // E5
+
+                // 第二段：祝你生日快乐 (高音变奏)
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 1046.5, dur: 0.4 }, // C6
+                { freq: 880.00, dur: 0.4 }, // A5
+                { freq: 659.25, dur: 0.4 }, // E5
+                { freq: 587.33, dur: 0.4 }, // D5
+                { freq: 987.77, dur: 0.6 }, // B5
+                { freq: 880.00, dur: 0.4 }, // A5
+
+                // 第三段：亲爱的白露霞 (过渡段)
+                { freq: 783.99, dur: 0.4 }, // G5
+                { freq: 783.99, dur: 0.4 }, // G5
+                { freq: 880.00, dur: 0.4 }, // A5
+                { freq: 783.99, dur: 0.4 }, // G5
+                { freq: 659.25, dur: 0.4 }, // E5
+                { freq: 587.33, dur: 0.8 }, // D5
+
+                // 第四段：祝你生日快乐 (重复)
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 587.33, dur: 0.4 }, // D5
+                { freq: 523.25, dur: 0.4 }, // C5
+                { freq: 659.25, dur: 0.4 }, // E5
+                { freq: 587.33, dur: 0.8 }, // D5
+
+                // 第五段：高潮变奏
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 659.25, dur: 0.3 }, // E5
+                { freq: 783.99, dur: 0.4 }, // G5
+                { freq: 1046.5, dur: 0.4 }, // C6
+                { freq: 987.77, dur: 0.4 }, // B5
+                { freq: 880.00, dur: 0.4 }, // A5
+                { freq: 783.99, dur: 0.4 }, // G5
+                { freq: 659.25, dur: 0.8 }, // E5
+
+                // 第六段：再次主旋律
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 587.33, dur: 0.4 }, // D5
+                { freq: 523.25, dur: 0.4 }, // C5
+                { freq: 659.25, dur: 0.4 }, // E5
+                { freq: 587.33, dur: 0.8 }, // D5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 587.33, dur: 0.4 }, // D5
+                { freq: 523.25, dur: 0.4 }, // C5
+                { freq: 783.99, dur: 0.4 }, // G5
+                { freq: 659.25, dur: 0.8 }, // E5
+
+                // 第七段：结尾渐慢
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 523.25, dur: 0.3 }, // C5
+                { freq: 1046.5, dur: 0.4 }, // C6
+                { freq: 880.00, dur: 0.4 }, // A5
+                { freq: 659.25, dur: 0.5 }, // E5
+                { freq: 587.33, dur: 0.5 }, // D5
+                { freq: 987.77, dur: 0.7 }, // B5
+                { freq: 880.00, dur: 0.5 }, // A5
+                { freq: 783.99, dur: 0.8 }, // G5
+
+                // 第八段：装饰音
+                { freq: 659.25, dur: 0.3 }, // E5
+                { freq: 783.99, dur: 0.3 }, // G5
+                { freq: 880.00, dur: 0.4 }, // A5
+                { freq: 783.99, dur: 0.3 }, // G5
+                { freq: 659.25, dur: 0.3 }, // E5
+                { freq: 587.33, dur: 0.8 }, // D5
+
+                // 第九段：高音区
+                { freq: 1046.5, dur: 0.3 }, // C6
+                { freq: 1046.5, dur: 0.3 }, // C6
+                { freq: 1174.7, dur: 0.4 }, // D6
+                { freq: 1046.5, dur: 0.4 }, // C6
+                { freq: 1318.5, dur: 0.4 }, // E6
+                { freq: 1174.7, dur: 0.8 }, // D6
+                { freq: 1046.5, dur: 0.3 }, // C6
+                { freq: 1046.5, dur: 0.3 }, // C6
+                { freq: 1174.7, dur: 0.4 }, // D6
+                { freq: 1046.5, dur: 0.4 }, // C6
+                { freq: 1568.0, dur: 0.4 }, // G6
+                { freq: 1318.5, dur: 0.8 }, // E6
+
+                // 第十段：最终结尾
+                { freq: 1046.5, dur: 0.3 }, // C6
+                { freq: 1046.5, dur: 0.3 }, // C6
+                { freq: 2093.0, dur: 0.4 }, // C7
+                { freq: 1760.0, dur: 0.4 }, // A6
+                { freq: 1318.5, dur: 0.5 }, // E6
+                { freq: 1174.7, dur: 0.5 }, // D6
+                { freq: 1975.5, dur: 0.7 }, // B6
+                { freq: 1760.0, dur: 0.8 }, // A6
+                { freq: 1568.0, dur: 1.5 }, // G6 延长结尾
+            ];
+
+            // 初始化蜡烛
+            function renderCandles() {
+                cakeTop.innerHTML = '';
+                for (let i = 0; i < 2; i++) {
+                    const candle = document.createElement('div');
+                    candle.className = 'candle';
+                    if (!candlesLit) {
+                        candle.classList.add('out');
+                    }
+                    const flame = document.createElement('div');
+                    flame.className = 'flame';
+                    candle.appendChild(flame);
+                    cakeTop.appendChild(candle);
+                }
+                updateCakeAppearance();
+            }
+
+            function setCandlesLit(lit) {
+                candlesLit = lit;
+                const candles = document.querySelectorAll('.candle');
+                candles.forEach(candle => {
+                    if (lit) {
+                        candle.classList.remove('out');
+                    } else {
+                        candle.classList.add('out');
+                    }
+                });
+                updateCakeAppearance();
+            }
+
+            function updateCakeAppearance() {
+                // 更新蛋糕被吃的状态
+                cakeContainer.classList.remove('eating', 'eaten');
+
+                if (cakeEatenBites >= maxBites) {
+                    cakeContainer.classList.add('eaten');
+                    cakeStatus.textContent = '🎉 蛋糕吃完啦！小肥猪生日快乐！';
+                    eatProgress.classList.add('show');
+                    eatProgressFill.style.width = '0%';
+                } else if (cakeEatenBites > 0) {
+                    cakeContainer.classList.add('eating');
+                    eatProgress.classList.add('show');
+                    const remainingPercent = ((maxBites - cakeEatenBites) / maxBites) * 100;
+                    eatProgressFill.style.width = remainingPercent + '%';
+
+                    if (cakeCut) {
+                        cakeStatus.textContent = `🍰 蛋糕吃了${cakeEatenBites}口，还剩${maxBites - cakeEatenBites}口~`;
+                    }
+                } else {
+                    eatProgress.classList.remove('show');
+                }
+
+                if (cakeCut && cakeEatenBites === 0) {
+                    cakeStatus.textContent = '🍰 蛋糕已切！可以吃啦~';
+                    cakeTop.style.opacity = '0.7';
+                } else if (!cakeCut) {
+                    cakeTop.style.opacity = '1';
+                    if (candlesLit) {
+                        cakeStatus.textContent = '🕯️ 蜡烛燃烧中~ 小肥猪快许愿吧！';
+                    } else {
+                        cakeStatus.textContent = '🕯️ 蜡烛未点燃';
+                    }
+                }
+
+                if (cakeCut) {
+                    const candles = document.querySelectorAll('.candle');
+                    candles.forEach(c => c.classList.add('out'));
+                    candlesLit = false;
+                }
+            }
+
+            // 切蛋糕
+            function cutCakeAction() {
+                if (cakeCut) {
+                    alert('蛋糕已经切好啦！🍰 小肥猪，快吃蛋糕吧！');
+                    return;
+                }
+                if (cakeEatenBites > 0) {
+                    alert('蛋糕已经在吃了，不用再切啦~');
+                    return;
+                }
+                cakeCut = true;
+                setCandlesLit(false);
+                updateCakeAppearance();
+                playTone(800, 0.1, 'square');
+                setTimeout(() => playTone(600, 0.1, 'square'), 100);
+            }
+
+            // 点蜡烛
+            function lightCandlesAction() {
+                if (cakeEatenBites >= maxBites) {
+                    alert('蛋糕已经吃完啦！不能再点蜡烛了~ 🎉');
+                    return;
+                }
+                if (cakeCut && cakeEatenBites === 0) {
+                    alert('蛋糕已经切开了，先吃蛋糕吧！');
+                    return;
+                }
+                if (candlesLit) {
+                    alert('蜡烛已经点燃了✨ 小肥猪，快许愿吧！');
+                    return;
+                }
+                setCandlesLit(true);
+                playTone(660, 0.2, 'sine');
+            }
+
+            // 吹蜡烛
+            function blowCandlesAction() {
+                if (cakeEatenBites >= maxBites) {
+                    alert('蛋糕都吃完啦，蜡烛早就没啦~');
+                    return;
+                }
+                if (!candlesLit) {
+                    alert('蜡烛还没点燃呢！先点蜡烛吧🔥');
+                    return;
+                }
+                setCandlesLit(false);
+                playNoise(0.15);
+            }
+
+            // 吃蛋糕
+            function eatCakeAction() {
+                if (!cakeCut && cakeEatenBites === 0) {
+                    alert('要先切蛋糕才能吃哦！🔪🍰');
+                    return;
+                }
+
+                if (cakeEatenBites >= maxBites) {
+                    alert('蛋糕已经全部吃完啦！🍰✨ 小肥猪，生日快乐！');
+                    // 重置吃的状态，让派对重新开始
+                    cakeEatenBites = 0;
+                    cakeCut = false;
+                    updateCakeAppearance();
+                    renderCandles();
+                    alert('派对重新开始！🎉 可以再次点蜡烛切蛋糕啦~');
+                    return;
+                }
+
+                // 吃一口蛋糕
+                cakeEatenBites++;
+
+                // 添加吃蛋糕特效
+                createBiteEffect();
+
+                // 播放吃蛋糕音效
+                playEatSound();
+
+                updateCakeAppearance();
+
+                // 如果吃完了
+                if (cakeEatenBites >= maxBites) {
+                    setTimeout(() => {
+                        playCelebrationSound();
+                        createConfetti();
+                    }, 300);
+                }
+            }
+
+            // 吃蛋糕特效
+            function createBiteEffect() {
+                const bite = document.createElement('div');
+                bite.className = 'bite-mark';
+                bite.textContent = ['😋', '🍰', '✨', '💕', '🎂'][Math.floor(Math.random() * 5)];
+
+                // 随机位置在蛋糕附近
+                const cakeRect = cakeContainer.getBoundingClientRect();
+                const x = cakeRect.left + Math.random() * cakeRect.width;
+                const y = cakeRect.top + Math.random() * cakeRect.height * 0.5;
+
+                bite.style.position = 'fixed';
+                bite.style.left = x + 'px';
+                bite.style.top = y + 'px';
+
+                document.body.appendChild(bite);
+
+                // 动画结束后移除
+                setTimeout(() => {
+                    bite.remove();
+                }, 1000);
+            }
+
+            // 吃蛋糕音效
+            function playEatSound() {
+                playTone(400 + Math.random() * 100, 0.1, 'square');
+                setTimeout(() => playTone(300 + Math.random() * 80, 0.08, 'square'), 50);
+            }
+
+            // 庆祝音效
+            function playCelebrationSound() {
+                const notes = [523, 659, 784, 1047];
+                notes.forEach((freq, i) => {
+                    setTimeout(() => playTone(freq, 0.2, 'sine'), i * 150);
+                });
+            }
+
+            // 五彩纸屑特效
+            function createConfetti() {
+                const emojis = ['🎉', '🎊', '✨', '💖', '🌟', '🎈', '🎀'];
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                        confetti.style.position = 'fixed';
+                        confetti.style.left = Math.random() * 100 + '%';
+                        confetti.style.top = '-20px';
+                        confetti.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                        confetti.style.pointerEvents = 'none';
+                        confetti.style.zIndex = '1000';
+                        confetti.style.animation = 'confettiFall 2s ease-out forwards';
+
+                        document.body.appendChild(confetti);
+
+                        setTimeout(() => {
+                            confetti.remove();
+                        }, 2000);
+                    }, i * 100);
+                }
+            }
+
+            // 添加纸屑动画样式
+            const style = document.createElement('style');
+            style.textContent = `
+      @keyframes confettiFall {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+      }
+    `;
+            document.head.appendChild(style);
+
+            // 信封交互
+            function openEnvelopeAction() {
+                if (envelopeOpen) {
+                    letterDiv.classList.toggle('show');
+                    return;
+                }
+                envelopeOpen = true;
+                envelopeDiv.classList.add('open');
+                envelopeDiv.textContent = '📩';
+                letterDiv.classList.add('show');
+                playTone(523, 0.2, 'triangle');
+                setTimeout(() => playTone(659, 0.2, 'triangle'), 150);
+            }
+
+            // 音频工具函数
+            function initAudioContext() {
+                if (audioCtx) return;
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.warn('Web Audio API 不支持');
+                }
+            }
+
+            function playTone(frequency, duration, type = 'sine') {
+                if (!audioCtx) {
+                    initAudioContext();
+                    if (!audioCtx) return;
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(frequency, now);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + duration);
+            }
+
+            function playNoise(duration) {
+                if (!audioCtx) {
+                    initAudioContext();
+                    if (!audioCtx) return;
+                }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const bufferSize = audioCtx.sampleRate * duration;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const source = audioCtx.createBufferSource();
+                source.buffer = buffer;
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                source.connect(gain);
+                gain.connect(audioCtx.destination);
+                source.start();
+            }
+
+            function playBirthdayMelody() {
+                if (!audioCtx) {
+                    initAudioContext();
+                    if (!audioCtx) return;
+                }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                let noteIndex = 0;
+                const playNextNote = () => {
+                    if (!musicPlaying || !isMusicOn) {
+                        return;
+                    }
+                    if (noteIndex >= birthdayNotes.length) {
+                        noteIndex = 0;
+                    }
+                    const note = birthdayNotes[noteIndex];
+                    playTone(note.freq, note.dur * 0.9, 'sine');
+                    noteIndex++;
+                    musicInterval = setTimeout(playNextNote, note.dur * 1000);
+                };
+                playNextNote();
+            }
+
+            function startMusic() {
+                if (musicPlaying) return;
+                initAudioContext();
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume().then(() => {
+                        musicPlaying = true;
+                        playBirthdayMelody();
+                    });
+                } else {
+                    musicPlaying = true;
+                    playBirthdayMelody();
+                }
+                musicToggle.textContent = '🎵 生日歌: 开';
+            }
+
+            function stopMusic() {
+                musicPlaying = false;
+                if (musicInterval) {
+                    clearTimeout(musicInterval);
+                    musicInterval = null;
+                }
+                musicToggle.textContent = '🎵 生日歌: 关';
+            }
+
+            function toggleMusic() {
+                initAudioContext();
+                if (isMusicOn) {
+                    stopMusic();
+                    isMusicOn = false;
+                } else {
+                    isMusicOn = true;
+                    startMusic();
+                }
+            }
+
+            window.addEventListener('beforeunload', () => {
+                stopMusic();
+                if (audioCtx) audioCtx.close();
+            });
+
+            // 事件绑定
+            lightBtn.addEventListener('click', lightCandlesAction);
+            blowBtn.addEventListener('click', blowCandlesAction);
+            cutBtn.addEventListener('click', cutCakeAction);
+            eatBtn.addEventListener('click', eatCakeAction);
+            openEnvelopeBtn.addEventListener('click', openEnvelopeAction);
+            musicToggle.addEventListener('click', toggleMusic);
+
+            envelopeDiv.addEventListener('click', () => {
+                if (!envelopeOpen) {
+                    openEnvelopeAction();
+                } else {
+                    letterDiv.classList.toggle('show');
+                }
+            });
+
+            cakeTop.addEventListener('click', (e) => {
+                if (e.target.closest('.candle')) {
+                    if (candlesLit && !cakeCut && cakeEatenBites < maxBites) {
+                        blowCandlesAction();
+                    } else if (!candlesLit && !cakeCut && cakeEatenBites < maxBites) {
+                        lightCandlesAction();
+                    } else if (cakeEatenBites >= maxBites) {
+                        alert('蛋糕已经吃完啦！🎉');
+                    }
+                }
+            });
+
+            // 初始化
+            renderCandles();
+
+            function attemptAutoStartMusic() {
+                if (!musicPlaying && isMusicOn) {
+                    initAudioContext();
+                    if (audioCtx && audioCtx.state === 'suspended') {
+                        audioCtx.resume().then(() => {
+                            if (isMusicOn) startMusic();
+                        });
+                    } else {
+                        if (isMusicOn) startMusic();
+                    }
+                }
+            }
+
+            document.body.addEventListener('click', function autoPlayTrigger() {
+                attemptAutoStartMusic();
+            }, { once: false });
+
+            window.addEventListener('load', () => {
+                musicToggle.textContent = '🎵 生日歌: 开';
+                isMusicOn = true;
+            });
+
+            // 像素星星特效
+            function createPixelStars() {
+                const starContainer = document.querySelector('.game-container');
+                if (!starContainer) return;
+                const star = document.createElement('span');
+                star.textContent = '✨';
+                star.style.position = 'absolute';
+                star.style.left = Math.random() * 90 + '%';
+                star.style.top = '-20px';
+                star.style.fontSize = (Math.random() * 20 + 12) + 'px';
+                star.style.opacity = 0.9;
+                star.style.pointerEvents = 'none';
+                star.style.zIndex = '5';
+                starContainer.appendChild(star);
+                let pos = -20;
+                const interval = setInterval(() => {
+                    pos += 1.2;
+                    star.style.top = pos + 'px';
+                    if (pos > window.innerHeight) {
+                        clearInterval(interval);
+                        star.remove();
+                    }
+                }, 30);
+            }
+            setInterval(createPixelStars, 1500);
+        })();
+    </script>
+</body>
+
+</html>
